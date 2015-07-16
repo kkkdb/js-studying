@@ -1,0 +1,29 @@
+function time_select(time){
+    var timeList = time.split(" ");
+    var timeList2 = timeList[1].split(":");
+    timeList2.pop();
+    var timeList3 = timeList2.join(":");
+    var day = (new Date()).getDate();
+    var day2 = timeList[0].split("-")[2];
+    var now_time = Number(new Date());
+    var pass_time = Number(new Date(time.replace(/-/g, '/')));
+    var res = Math.floor((now_time - pass_time)/1000);
+    // alert(res);
+    if (day == day2){ //是今天
+        if (res < 60 ) {
+            return parseInt(res%60) + ' 秒前';
+        }else if( res < 3600 ) {
+            return parseInt(res/60) + ' 分钟前';
+        }else if( res < 86400 ){ 
+            return '今天 ' + timeList3;
+        }
+    }else if(day == day2 +1){
+        if ( res < 3600 ) {
+            return parseInt(res/60) + ' 分钟前';
+        }else if( res < 86400 ){ 
+            return '昨天 ' + timeList3;
+        }
+    }else{
+        return time;
+    }  
+}
