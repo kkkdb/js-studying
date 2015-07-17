@@ -20,7 +20,7 @@ function time_select(time){
     }else if(day == day2 +1){
         if ( res < 3600 ) {
             return parseInt(res/60) + ' 分钟前';
-        }else if( res < 86400 ){ 
+        }else if( res < 172800 ){ 
             return '昨天 ' + timeList3;
         }
     }else{
