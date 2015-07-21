@@ -1,0 +1,10 @@
+Javascript刷新页面的几种方法：
+1    history.go(0)
+2    window.location.reload()
+     window.location.reload(true) 
+3    location=location
+4    location.assign(location)
+5    document.execCommand(''Refresh'')
+6    window.navigate(location)
+7    location.replace(location)
+8    document.URL=location.href
