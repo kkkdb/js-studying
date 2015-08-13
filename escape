@@ -1,0 +1,11 @@
+在window.location.href = ''中传如中文字符的时候，就得用esape函数将其编码，例如：location.href="/a/b.html?c=escape('中国')";
+unescape可将其反编码
+
+//该函数可在网站url中获取相应的值
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+}
+
+var c = unescape(getQueryString(c));
