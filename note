@@ -1,0 +1,44 @@
+在W3C事件模型中，任何事件会首先被捕获直至到达目标元素然后再冒泡回去。事件流包括3个阶段：事件捕获阶段、处于目标阶段和事件冒泡阶段。
+Web开发者可以选择将事件处理程序注册在捕获或者冒泡阶段。这可以通过addEventListener()方法来实现。如果该方法传入的最后一个参数值为true，表示事件处理程序被注册在捕获阶段，如果为false表示件处理程序被注册在冒泡阶段。
+
+假设有如下程序(childEle是parentEle的子元素)：
+
+1.parentEle.addEventListener("click", parentDoSomething, true);
+
+2.childEle.addEventListener("click", childEleDoSomething, false);
+
+如果用户点击子元素childEle会发生如下事情：
+
+a、点击事件开始于捕获阶段。它会先查询是否有childEle的任何祖先元素在捕获阶段绑定了onclick事件。
+
+b、它发现祖先元素1在捕获阶段绑定了onclick事件，于是parentEle.parentDoSomething()首先被执行。
+
+c、事件一直查询到目标元素childEle都没有再发现别的在捕获阶段绑定的onclick事件，事件转到它的冒泡阶段并执行childEleDoSomething()(注册在childEle上的在冒泡阶段执行的事件处理程序)。
+
+d、事件再次向上查询并检查是否有任何祖先元素在冒泡阶段绑定了onclick事件，并没有查询到，所以什么都没有发生。
+再看相反的例子：
+
+1.parentEle.addEventListener("click", parentDoSomething, false);
+
+2.childEle.addEventListener("click", childEleDoSomething, false);
+
+现在如果用户点击childEle，下面的事情会按顺序发生：
+
+a、点击事件发生于捕获阶段。事件查询childEle是否有任何祖先元素在捕获阶段绑定了onclick事件并且没有查找到这样的元素。
+
+b、事件查询到目标元素childEle自己。事件转为冒泡阶段并执行childEleDoSomething()。
+
+c、事件再次向上查询并检查目标元素是否有任何祖先元素在冒泡阶段绑定了onclick事件。
+
+d、它找到了满足条件的parentEle，然后执行parentDoSomething()。所以选项C是错的，应该是fn2先触发。
+
+因为IE没有提供对事件捕获阶段的支持，所以IE跟标准浏览器对于DOM事件流实现不一样。
+
+document.querySelector、document.querySelectorAll
+document.querySelector只返回匹配的第一个元素，如果没有匹配项，返回null。document.querySelectorAll返回匹配的元素集合，如果没有匹配项，返回空的nodelist(节点数组)。这两个方法都可以接受三种类型的参数：id(#)，class(.)，标签，很像jquery的选择器。如：
+var obj = document.querySelector("#id");
+var obj = document.querySelector(".classname");
+var obj = document.querySelector("div");
+var el = document.body.querySelector("style[type='text/css'], style:not([type])");
+var elements = document.querySelectorAll("#score>tbody>tr>td:nth-of-type(2)");
+var elements = document.querySelectorAll("#id1, #id2, .class1, class2, div a, #list li img");
