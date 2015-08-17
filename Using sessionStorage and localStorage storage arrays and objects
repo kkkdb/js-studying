@@ -1,0 +1,33 @@
+有时候，我们需要将数据存储到sessionStorage和localStorage中，这样做的好处有：
+
+1 缓存数据
+
+2 减少对内存的占用
+
+但是，storage只能存储字符串的数据，对于JS中常用的数组或对象却不能直接存储。
+
+var obj = { name:'Jim' };
+sessionStorage.obj = obj; 
+localStorage.obj = obj; 
+ 
+var arr = [1,2,3]; 
+sessionStorage.obj = arr; 
+localStorage.obj = arr;
+
+
+上面的写法都是不能成功的！但我们可以通过JSON对象提供的parse和stringify将其他数据类型转化成字符串，再存储到storage中就可以了。请看下面的代码。
+
+var obj = { name:'Jim' }; 
+var str = JSON.stringify(obj); 
+ 
+//存入 
+sessionStorage.obj = str; 
+//读取 
+str = sessionStorage.obj; 
+//重新转换为对象 
+obj = JSON.parse(str);
+
+
+
+localStorage也一样，只是和sessionStorage的存储时间不一样。
+需要注意的是，JS中的数组本质上也是对象类型，所以上面的代码对数组也是适用的。
